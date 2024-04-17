@@ -13,7 +13,11 @@ import { responseHelper } from '../_service';
 
 const TableView: MediaViewComponent = (props, ref) => {
 
-  const { uploading, rowSelection, onShowPreview, params, request } = props;
+  const {
+    uploading,
+    rowSelection, rowSelectActions,
+    onShowPreview, request, params,
+  } = props;
 
   const columns: ProColumns<Media>[] = [
     { title: '文件名', dataIndex: 'name' },
@@ -51,6 +55,7 @@ const TableView: MediaViewComponent = (props, ref) => {
       actionRef={ref}
       loading={uploading}
       rowSelection={rowSelection}
+      actions={rowSelectActions}
       toolBarRender={false}
       params={params}
       request={(params: PaginationProps) =>

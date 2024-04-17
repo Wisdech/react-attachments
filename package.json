@@ -37,7 +37,7 @@
     "@svgr/rollup": "^8.1.0",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
-    "@wisdech/components": "^0.1.2",
+    "@wisdech/components": "^0.1.3",
     "antd": "^5.16.2",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
@@ -52,5 +52,8 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "ahooks": "^3.7.11"
   }
 }

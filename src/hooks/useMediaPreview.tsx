@@ -8,11 +8,12 @@ import React, { useState } from 'react';
 import { Button, Col, Modal, Row, Space } from 'antd';
 import { Media, MediaType, Service } from '../_types';
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
-import { ProDescriptions } from '@ant-design/pro-components';
-import { manByte } from '@wisdech/components';
+import { ActionType, ProDescriptions } from '@ant-design/pro-components';
+import { DangerButton, manByte } from '@wisdech/components';
 import useWindowSize from './useWindowSize';
 
-export default function(service: Service) {
+type RefType = React.RefObject<ActionType>
+export default function(service: Service, ref?: RefType) {
 
   const { height, width } = useWindowSize();
   const [current, setCurrent] = useState<Media>();
@@ -45,9 +46,31 @@ export default function(service: Service) {
     document.body.removeChild(a);
   };
 
+  const handleShow = async () => {
+    const media = await service.show(current);
+    setCurrent(media.data.data);
+    return { data: media.data.data, success: media.data.success };
+  };
+
+  const handleUpdate = async (_: React.Key | React.Key[], record: Media) => {
+    await service.update(record);
+    await ref?.current?.reload();
+  };
+
+  const handleDestroy = () => {
+    service.destroy(current)
+      .then(() => {
+        setIsModalOpen(false);
+        ref?.current?.reload();
+      });
+  };
+
   const modalFooter = (
     <Space>
-      <Button>新窗口打开</Button>
+      <DangerButton
+        title="删除文件" description="确认删除文件？删除后无法恢复"
+        text="删除" onClick={handleDestroy}
+      />
       <Button type="primary" onClick={handleDownload}>下载</Button>
     </Space>
   );
@@ -82,14 +105,10 @@ export default function(service: Service) {
           </Col>
           <Col span={8}>
             <ProDescriptions<Media>
-              editable={{
-                onSave: (_, record) => {
-                  return service.update(record);
-                },
-              }}
+              editable={{ onSave: handleUpdate }}
               layout="vertical"
               bordered column={2}
-              dataSource={current}
+              request={handleShow}
               columns={[
                 { title: '文件名', dataIndex: 'name', span: 2 },
                 {

@@ -4,17 +4,27 @@
  * Email: info@wisdech.com
  */
 
-import { BaseEntity, BaseUser, CommonResult, PaginationResult, Props, UuidEntity } from '@wisdech/components';
+import {
+  BaseEntity,
+  BaseUser,
+  CommonResult,
+  PaginationResult,
+  Props,
+  UuidEntity,
+  WisTableProps,
+} from '@wisdech/components';
 import { RcFile } from 'antd/es/upload';
 import { ActionType, ProListProps } from '@ant-design/pro-components';
 import React from 'react';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { WisListProps } from '@wisdech/components/src/components/WisList';
 
 export type MediaViewComponent = React.ForwardRefRenderFunction<ActionType, ViewProps>
 
 export interface ViewProps {
   uploading: boolean;
   rowSelection: ProListProps['rowSelection'];
+  rowSelectActions: WisListProps<Media>['actions'] | WisTableProps<Media>['actions'];
   onShowPreview: (item: Media) => void;
   params: Props;
   request: (params: Props) => Promise<AxiosResponse<PaginationResult<Media>>>;
@@ -26,8 +36,10 @@ export type IndexAction = Promise<AxiosResponse<PaginationResult<Media>>>
 export interface Service {
   index: (params: Props) => IndexAction;
   store: (file: any, options?: AxiosRequestConfig) => OtherAction;
-  update: (media: Media) => OtherAction;
-  destroy: (media: Media) => OtherAction;
+  show: (media?: Media | Media['id']) => OtherAction;
+  update: (media?: Media) => OtherAction;
+  destroy: (media?: Media | Media['id']) => OtherAction;
+  batchDestroy: (ids?: Media['id'][]) => OtherAction;
 }
 
 export const MediaType: Record<Media['file_type'], string> = {

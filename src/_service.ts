@@ -29,15 +29,31 @@ export default function(endpoint: string): Service {
     );
   }
 
-  function update(item: Media): OtherAction {
-    return request.put<CommonResult<Media>>(`${item.id}`, item);
+  function show(item?: Media | Media['id']): OtherAction {
+    if (typeof item != 'object') {
+      return request.get<CommonResult<Media>>(`${item}`);
+    } else {
+      return request.get<CommonResult<Media>>(`${item?.id}`);
+    }
   }
 
-  function destroy(item: Media): OtherAction {
-    return request.delete<CommonResult<Media>>(`${item.id}`);
+  function update(item?: Media): OtherAction {
+    return request.put<CommonResult<Media>>(`${item?.id}`, item);
   }
 
-  return { index, store, update, destroy };
+  function destroy(item?: Media | Media['id']): OtherAction {
+    if (typeof item != 'object') {
+      return request.delete<CommonResult<Media>>(`${item}`);
+    } else {
+      return request.delete<CommonResult<Media>>(`${item?.id}`);
+    }
+  }
+
+  function batchDestroy(ids?: Media['id'][]): OtherAction {
+    return request.delete<CommonResult<Media>>('batch', { params: { ids: ids } });
+  }
+
+  return { index, store, show, update, destroy, batchDestroy };
 
 }
 

@@ -14,7 +14,11 @@ import { responseHelper } from '../_service';
 
 const ListView: MediaViewComponent = (props, ref) => {
 
-  const { uploading, rowSelection, onShowPreview, params, request } = props;
+  const {
+    uploading,
+    rowSelection, rowSelectActions,
+    onShowPreview, request, params,
+  } = props;
 
   const styles: Record<string, CSSProperties> = {
     card: {
@@ -57,6 +61,7 @@ const ListView: MediaViewComponent = (props, ref) => {
       actionRef={ref}
       loading={uploading}
       rowSelection={rowSelection}
+      actions={rowSelectActions}
       itemCardProps={{
         bordered: false,
         bodyStyle: { padding: 0 },
