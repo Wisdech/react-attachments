@@ -1,0 +1,56 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "tailwind": "npx tailwindcss -i ./src/index.css -o ./dist/index.css"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "name": "@wisdech/attachments",
+  "author": "徐添翼 XuTianyi（xXutianyi）",
+  "module": "dist/wis-media-library.esm.js",
+  "devDependencies": {
+    "@ant-design/icons": "^5.3.6",
+    "@ant-design/pro-components": "^2.7.0",
+    "@cyntler/react-doc-viewer": "^1.14.1",
+    "@rollup/plugin-image": "^3.0.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-url": "^8.0.2",
+    "@size-limit/preset-small-lib": "^11.1.2",
+    "@svgr/rollup": "^8.1.0",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "@wisdech/components": "^0.1.2",
+    "antd": "^5.16.2",
+    "autoprefixer": "^10.4.19",
+    "axios": "^1.6.8",
+    "dayjs": "^1.11.10",
+    "husky": "^9.0.11",
+    "postcss": "^8.4.38",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "size-limit": "^11.1.2",
+    "tailwindcss": "^3.4.3",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  }
+}
