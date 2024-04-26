@@ -11,6 +11,7 @@ import { ProListProps } from '@ant-design/pro-components';
 import { Typography } from 'antd';
 import cover from './Preview';
 import { responseHelper } from '../../_service';
+import { WisListProps } from '@wisdech/components/src/components/WisList';
 
 const ListView: MediaViewComponent = (props, ref) => {
 
@@ -53,23 +54,20 @@ const ListView: MediaViewComponent = (props, ref) => {
     },
   };
 
+  const tableRender: WisListProps<Media>['tableRender'] = (_1, _2, domList) => (
+    <div>
+      {domList.alert}
+      <div style={{ height: scrollY, overflowY: 'scroll', overflowX: 'hidden' }}>
+        {domList.table}
+      </div>
+    </div>
+  );
+
   return (
     <WisList<Media>
       className="wis-card-list"
-      tableStyle={{
-        height: scrollY,
-        overflowY: 'scroll',
-        overflowX: 'hidden',
-      }}
       grid={{ column: 6 }}
-      tableRender={(_1, _2, domList) => (
-        <div>
-          {domList.alert}
-          <div style={{ maxHeight: scrollY, overflowY: 'scroll', overflowX: 'hidden' }}>
-            {domList.table}
-          </div>
-        </div>
-      )}
+      tableRender={tableRender}
       metas={metas}
       actionRef={ref}
       loading={uploading}
@@ -84,7 +82,7 @@ const ListView: MediaViewComponent = (props, ref) => {
       })}
       toolBarRender={false}
       params={params}
-      pagination={{ pageSize: 24, defaultPageSize: 24 }}
+      pagination={{ pageSize: 24, defaultPageSize: 24, size: 'small' }}
       request={async (params: PaginationProps) =>
         responseHelper(request(params))
       }

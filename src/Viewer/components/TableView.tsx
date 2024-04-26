@@ -50,7 +50,7 @@ const TableView: MediaViewComponent = (props, ref) => {
 
   return (
     <WisTable<Media>
-      scroll={{ y: scrollY }}
+      scroll={{ y: (scrollY ?? 88) - 88 }}
       search={false}
       columns={columns}
       actionRef={ref}

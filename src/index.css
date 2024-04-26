@@ -34,5 +34,20 @@ a.danger {
         .ant-pro-checkcard-content {
             @apply p-0 !important;
         }
+
+        .ant-list {
+            @apply h-full !important;
+        }
+
+        .ant-spin-nested-loading {
+            height: calc(100% - 34px) !important;
+            @apply -mt-2 overflow-y-scroll overflow-x-hidden !important;
+        }
+
+        .ant-list-pagination {
+            @apply mt-0 pt-2 !important;
+            position: inherit;
+
+        }
     }
 }

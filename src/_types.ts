@@ -36,7 +36,7 @@ export interface AttachmentsProps {
   service?: Service;
   selectMode?: boolean;
   initialSelected?: Media['id'][];
-  onSelectChange?: (items: Media[]) => void;
+  onSelectChange?: (items: Media['id'][]) => void;
   contentHeight?: number;
 }
 

@@ -13,13 +13,13 @@ import Attachments from '../Viewer';
 type SelectProps = Pick<AttachmentsProps, 'service' | 'endpoint'>
 type FormItemProps = SelectProps & FormProps
 type SelectModalProps = SelectProps & {
-  value?: Media[];
-  onChange?: (value?: Media[]) => void;
+  value?: Media['id'][];
+  onChange?: (value?: Media['id'][]) => void;
 }
 
 export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, value, onChange }) => {
   const { height, width } = useWindowSize();
-  const [selected, setSelected] = useState<Media[]>(value ?? []);
+  const [selected, setSelected] = useState<Media['id'][]>(value ?? []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -46,15 +46,15 @@ export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, val
         onOk={handleOk}
         onCancel={handleCancel}
         style={{ top: 0, paddingBottom: 0 }}
-        styles={{ content: { maxHeight: height - 20, top: 10 } }}
+        styles={{ content: { maxHeight: height - 20, top: 10, overflowY: 'scroll', overflowX: 'hidden' } }}
       >
         <Attachments
           selectMode
           service={service}
           endpoint={endpoint}
-          initialSelected={value?.map(m => m.id)}
+          initialSelected={value}
           onSelectChange={setSelected}
-          contentHeight={height - 20 - 224}
+          contentHeight={height - 20 - 264}
         />
       </Modal>
     </>

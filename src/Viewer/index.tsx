@@ -64,7 +64,7 @@ const Attachments: React.FC<AttachmentsProps> = (props) => {
     onShowPreview: handleShowPreview,
     params: { type: fileType, name: fileName },
     rowSelection: (selectMode || select) && { alwaysShowAlert: true, ...rowSelection },
-    scrollY: contentHeight,
+    scrollY: ((!!dragger) && contentHeight) ? (contentHeight - 128) : contentHeight,
     rowSelectActions: select ? [] : [
       <DangerLink
         key="destroy" title="批量删除"
@@ -75,14 +75,7 @@ const Attachments: React.FC<AttachmentsProps> = (props) => {
   };
 
   useEffect(() => {
-    const medias: Media[] = [];
-    onSelectChange && selected.forEach(s => {
-      service.show(s as string)
-        .then(res => {
-          res?.data?.data && medias.push(res?.data?.data);
-        });
-    });
-    onSelectChange?.(medias);
+    onSelectChange?.(selected as string[]);
   }, [selected]);
 
   return (
