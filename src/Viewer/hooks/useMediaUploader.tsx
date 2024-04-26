@@ -5,17 +5,16 @@
  */
 
 import { InboxOutlined } from '@ant-design/icons';
-import { Button, Upload, UploadProps } from 'antd';
+import { App, Button, Upload, UploadProps } from 'antd';
 import React, { useState } from 'react';
 import { ActionType } from '@ant-design/pro-components';
-import useNotifications from './useNotifications';
-import { Service } from '../_types';
+import { Service } from '../../_types';
 import { AxiosRequestConfig } from 'axios';
 
 type RefType = React.RefObject<ActionType>
 export default function(service: Service, ref?: RefType) {
 
-  const { message } = useNotifications();
+  const { message } = App.useApp();
   const [upload, setUpload] = useState(false);
   const [uploading, setUploading] = useState(false);
 

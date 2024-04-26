@@ -5,7 +5,7 @@
  */
 
 import React, { CSSProperties } from 'react';
-import { Media } from '../_types';
+import { Media } from '../../_types';
 import { createFromIconfontCN } from '@ant-design/icons';
 
 const styles: Record<string, CSSProperties> = {

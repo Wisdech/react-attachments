@@ -4,18 +4,18 @@
  * Email: info@wisdech.com
  */
 
-import { Media, MediaViewComponent } from '../_types';
+import { Media, MediaViewComponent } from '../../_types';
 import { PaginationProps, WisList } from '@wisdech/components';
 import React, { CSSProperties } from 'react';
 import { ProListProps } from '@ant-design/pro-components';
 import { Typography } from 'antd';
 import cover from './Preview';
-import { responseHelper } from '../_service';
+import { responseHelper } from '../../_service';
 
 const ListView: MediaViewComponent = (props, ref) => {
 
   const {
-    uploading,
+    scrollY, uploading,
     rowSelection, rowSelectActions,
     onShowPreview, request, params,
   } = props;
@@ -56,7 +56,20 @@ const ListView: MediaViewComponent = (props, ref) => {
   return (
     <WisList<Media>
       className="wis-card-list"
+      tableStyle={{
+        height: scrollY,
+        overflowY: 'scroll',
+        overflowX: 'hidden',
+      }}
       grid={{ column: 6 }}
+      tableRender={(_1, _2, domList) => (
+        <div>
+          {domList.alert}
+          <div style={{ maxHeight: scrollY, overflowY: 'scroll', overflowX: 'hidden' }}>
+            {domList.table}
+          </div>
+        </div>
+      )}
       metas={metas}
       actionRef={ref}
       loading={uploading}

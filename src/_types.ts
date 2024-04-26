@@ -28,6 +28,16 @@ export interface ViewProps {
   onShowPreview: (item: Media) => void;
   params: Props;
   request: (params: Props) => Promise<AxiosResponse<PaginationResult<Media>>>;
+  scrollY?:number
+}
+
+export interface AttachmentsProps {
+  endpoint?: string;
+  service?: Service;
+  selectMode?: boolean;
+  initialSelected?: Media['id'][];
+  onSelectChange?: (items: Media[]) => void;
+  contentHeight?: number;
 }
 
 export type OtherAction = Promise<AxiosResponse<CommonResult<Media>>>

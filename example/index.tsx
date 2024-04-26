@@ -1,18 +1,23 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Attachments, AttachmentSelect } from '../dist';
+import { AttachmentsViewer } from '../dist';
 import { PageContainer } from '@ant-design/pro-components';
+import { App } from 'antd';
 
 import '../dist/attachments.esm.css';
 
-const App = () => {
+const Example = () => {
   return (
-    <PageContainer>
-      <AttachmentSelect endpoint="http://localhost:8000/api/common/media" />
-      <Attachments endpoint="http://localhost:8000/api/common/media" />
-    </PageContainer>
+    <App>
+      <PageContainer>
+        <AttachmentsViewer
+          endpoint="http://127.0.0.1:8000/api/common/media"
+          contentHeight={400}
+        />
+      </PageContainer>
+    </App>
   );
 };
 
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Example />, document.getElementById('root'));

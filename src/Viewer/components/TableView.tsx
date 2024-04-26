@@ -5,16 +5,16 @@
  */
 
 import React from 'react';
-import { Media, MediaType, MediaViewComponent } from '../_types';
+import { Media, MediaType, MediaViewComponent } from '../../_types';
 import { manByte, PaginationProps, WisTable } from '@wisdech/components';
 import { ProColumns } from '@ant-design/pro-table/lib';
 import { Space } from 'antd';
-import { responseHelper } from '../_service';
+import { responseHelper } from '../../_service';
 
 const TableView: MediaViewComponent = (props, ref) => {
 
   const {
-    uploading,
+    scrollY, uploading,
     rowSelection, rowSelectActions,
     onShowPreview, request, params,
   } = props;
@@ -50,6 +50,7 @@ const TableView: MediaViewComponent = (props, ref) => {
 
   return (
     <WisTable<Media>
+      scroll={{ y: scrollY }}
       search={false}
       columns={columns}
       actionRef={ref}

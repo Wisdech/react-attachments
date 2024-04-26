@@ -6,11 +6,11 @@
 
 import React, { useState } from 'react';
 import { Button, Col, Modal, Row, Space } from 'antd';
-import { Media, MediaType, Service } from '../_types';
+import { Media, MediaType, Service } from '../../_types';
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import { ActionType, ProDescriptions } from '@ant-design/pro-components';
 import { DangerButton, manByte } from '@wisdech/components';
-import useWindowSize from './useWindowSize';
+import useWindowSize from '../../FormItem/hooks/useWindowSize';
 
 type RefType = React.RefObject<ActionType>
 export default function(service: Service, ref?: RefType) {

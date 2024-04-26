@@ -4,12 +4,12 @@
  * Email: info@wisdech.com
  */
 
-import { Form } from 'antd';
-import { TableRowSelection } from 'antd/es/table/interface';
-import React, { useEffect, useState } from 'react';
 
-export function useRowSelect<T>() {
-  const [selected, setSelected] = useState<React.Key[]>([]);
+import React, { useState } from 'react';
+import { TableRowSelection } from 'antd/es/table/interface';
+
+export function useRowSelection<T>(initialValue: React.Key[] = []) {
+  const [selected, setSelected] = useState<React.Key[]>(initialValue);
 
   const rowSelection: TableRowSelection<T> = {
     selectedRowKeys: selected,
@@ -20,14 +20,4 @@ export function useRowSelect<T>() {
     rowSelection,
     selected,
   };
-}
-
-export function useFormReset<T = any>() {
-  const [form] = Form.useForm<T>();
-
-  useEffect(() => {
-    form?.resetFields();
-  }, []);
-
-  return form;
 }
