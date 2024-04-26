@@ -11,7 +11,7 @@ import useWindowSize from './hooks/useWindowSize';
 import Attachments from '../Viewer';
 
 type SelectProps = Pick<AttachmentsProps, 'service' | 'endpoint'>
-type FormItemProps = SelectProps & FormProps
+type FormItemProps = SelectProps & Omit<FormProps, 'required'> & { max?: number, min?: number }
 type SelectModalProps = SelectProps & {
   value?: Media['id'][];
   onChange?: (value?: Media['id'][]) => void;
@@ -63,10 +63,49 @@ export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, val
 
 const FormItem: React.FC<FormItemProps> = (props) => {
 
-  const { endpoint, service, ...formProps } = props;
+  const { endpoint, service, min, max, ...formProps } = props;
+
+
+  const checkRange = (_: any, value: string[]) => {
+    if (max !== undefined && min !== undefined) {
+      if (value.length >= min && value.length <= max) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject();
+      }
+    } else if (max === undefined && min !== undefined) {
+      if (value.length >= min) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject();
+      }
+    } else if (min === undefined && max !== undefined) {
+      if (value.length <= max) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject();
+      }
+    }
+    return Promise.reject();
+  };
+
+  const errorMessage = () => {
+    if (max !== undefined && min !== undefined) {
+      return `请选择${min}至${max}个附件`;
+    } else if (max === undefined && min !== undefined) {
+      return `请最少选择${min}个附件`;
+    } else if (min === undefined && max !== undefined) {
+      return `请最多选择${min}个附件`;
+    }
+    return '';
+  };
 
   return (
-    <Form.Item {...formProps}>
+    <Form.Item
+      {...formProps}
+      required={max !== undefined || min !== undefined}
+      rules={[{ validator: checkRange, message: errorMessage() }]}
+    >
       <SelectModal {...{ endpoint, service }} />
     </Form.Item>
   );
