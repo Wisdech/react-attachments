@@ -18,7 +18,7 @@ import TableView from './components/TableView';
 import ListView from './components/ListView';
 import { useRowSelection } from './hooks/useRowSelection';
 
-const Attachments: React.FC<AttachmentsProps> = (props) => {
+export const AttachmentsViewer: React.FC<AttachmentsProps> = (props) => {
 
   const { endpoint, service: cService, selectMode: select, initialSelected, onSelectChange, contentHeight } = props;
   const service = cService ?? _service(endpoint ?? '/api/attachments');
@@ -91,5 +91,3 @@ const Attachments: React.FC<AttachmentsProps> = (props) => {
     </>
   );
 };
-
-export default Attachments;

@@ -8,7 +8,7 @@ import { Button, Form, FormItemProps as FormProps, Modal } from 'antd';
 import { AttachmentsProps, Media } from '../_types';
 import React, { useState } from 'react';
 import useWindowSize from './hooks/useWindowSize';
-import Attachments from '../Viewer';
+import { AttachmentsViewer } from '../Viewer';
 
 type SelectProps = Pick<AttachmentsProps, 'service' | 'endpoint'>
 type FormItemProps = SelectProps & Omit<FormProps, 'required'> & { max?: number, min?: number }
@@ -48,7 +48,7 @@ export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, val
         style={{ top: 0, paddingBottom: 0 }}
         styles={{ content: { maxHeight: height - 20, top: 10, overflowY: 'scroll', overflowX: 'hidden' } }}
       >
-        <Attachments
+        <AttachmentsViewer
           selectMode
           service={service}
           endpoint={endpoint}
@@ -61,10 +61,9 @@ export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, val
   );
 };
 
-const FormItem: React.FC<FormItemProps> = (props) => {
+export const AttachmentsSelect: React.FC<FormItemProps> = (props) => {
 
   const { endpoint, service, min, max, ...formProps } = props;
-
 
   const checkRange = (_: any, value: string[]) => {
     if (max !== undefined && min !== undefined) {
@@ -110,5 +109,3 @@ const FormItem: React.FC<FormItemProps> = (props) => {
     </Form.Item>
   );
 };
-
-export default FormItem;

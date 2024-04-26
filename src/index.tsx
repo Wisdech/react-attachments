@@ -7,5 +7,5 @@
 import './index.css';
 
 export * from './_types';
-export { default as AttachmentsSelect } from './FormItem';
-export { default as AttachmentsViewer } from './Viewer';
+export * from './FormItem';
+export * from './Viewer';
