@@ -4,20 +4,21 @@
  * Email: info@wisdech.com
  */
 
-import { Button, Form, FormItemProps as FormProps, Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { AttachmentsProps, Media } from '../_types';
 import React, { useState } from 'react';
 import useWindowSize from './hooks/useWindowSize';
 import { AttachmentsViewer } from '../Viewer';
 
 type SelectProps = Pick<AttachmentsProps, 'service' | 'endpoint'>
-type FormItemProps = SelectProps & Omit<FormProps, 'required'> & { max?: number, min?: number }
 type SelectModalProps = SelectProps & {
   value?: Media['id'][];
   onChange?: (value?: Media['id'][]) => void;
+  block?: boolean
 }
 
-export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, value, onChange }) => {
+export const AttachmentsSelect: React.FC<SelectModalProps> = ({ service, endpoint, value, onChange, block }) => {
+
   const { height, width } = useWindowSize();
   const [selected, setSelected] = useState<Media['id'][]>(value ?? []);
 
@@ -38,7 +39,9 @@ export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, val
 
   return (
     <>
-      <Button onClick={showModal}>{selected.length === 0 ? '选择附件' : `已选${selected.length}个附件`}</Button>
+      <Button {...(block && { className: 'w-full' })} onClick={showModal}>
+        {selected.length === 0 ? '选择附件' : `已选${selected.length}个附件`}
+      </Button>
       <Modal
         title="选择附件"
         width={width - 64}
@@ -61,51 +64,36 @@ export const SelectModal: React.FC<SelectModalProps> = ({ service, endpoint, val
   );
 };
 
-export const AttachmentsSelect: React.FC<FormItemProps> = (props) => {
-
-  const { endpoint, service, min, max, ...formProps } = props;
-
-  const checkRange = (_: any, value: string[]) => {
-    if (max !== undefined && min !== undefined) {
-      if (value.length >= min && value.length <= max) {
-        return Promise.resolve();
-      } else {
-        return Promise.reject();
-      }
-    } else if (max === undefined && min !== undefined) {
-      if (value.length >= min) {
-        return Promise.resolve();
-      } else {
-        return Promise.reject();
-      }
-    } else if (min === undefined && max !== undefined) {
-      if (value.length <= max) {
-        return Promise.resolve();
-      } else {
-        return Promise.reject();
-      }
+export const countValidator = (max?: number, min?: number) => (_: any, value: string[]) => {
+  if (max !== undefined && min !== undefined) {
+    if (value.length >= min && value.length <= max) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject();
     }
-    return Promise.reject();
-  };
-
-  const errorMessage = () => {
-    if (max !== undefined && min !== undefined) {
-      return `请选择${min}至${max}个附件`;
-    } else if (max === undefined && min !== undefined) {
-      return `请最少选择${min}个附件`;
-    } else if (min === undefined && max !== undefined) {
-      return `请最多选择${min}个附件`;
+  } else if (max === undefined && min !== undefined) {
+    if (value.length >= min) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject();
     }
-    return '';
-  };
+  } else if (min === undefined && max !== undefined) {
+    if (value.length <= max) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject();
+    }
+  }
+  return Promise.reject();
+};
 
-  return (
-    <Form.Item
-      {...formProps}
-      required={max !== undefined || min !== undefined}
-      rules={[{ validator: checkRange, message: errorMessage() }]}
-    >
-      <SelectModal {...{ endpoint, service }} />
-    </Form.Item>
-  );
+export const countMessage = (max?: number, min?: number) => {
+  if (max !== undefined && min !== undefined) {
+    return `请选择${min}至${max}个附件`;
+  } else if (max === undefined && min !== undefined) {
+    return `请最少选择${min}个附件`;
+  } else if (min === undefined && max !== undefined) {
+    return `请最多选择${min}个附件`;
+  }
+  return '';
 };
